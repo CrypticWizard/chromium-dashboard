@@ -139,10 +139,6 @@ class ChromedashFeature extends LitElement {
     this.dispatchEvent(event);
   }
 
-  _textSelected() {
-    console.log(window.getSelection().type);
-  }
-
   _togglePanelExpansion(e) {
     // Don't toggle panel if tooltip or link is being clicked.
     const target = e.currentTarget;
@@ -211,7 +207,7 @@ class ChromedashFeature extends LitElement {
 
   render() {
     return html`
-      <hgroup @onselect="${this._textSelected}" @click="${this._togglePanelExpansion}">
+      <hgroup @click="${this._togglePanelExpansion}">
         <h2>${this.feature.name}
           ${this.canEdit ? html`
             <span class="tooltip" title="Edit this feature">
