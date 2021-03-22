@@ -139,11 +139,19 @@ class ChromedashFeature extends LitElement {
     this.dispatchEvent(event);
   }
 
+  _textSelected() {
+    console.log(window.getSelection().type);
+  }
+
   _togglePanelExpansion(e) {
     // Don't toggle panel if tooltip or link is being clicked.
     const target = e.currentTarget;
+    const textSelection = window.getSelection();
+
     if (target.classList.contains('tooltip') || 'tooltip' in target.dataset ||
-        target.tagName == 'A' || target.tagName == 'CHROMEDASH-MULTI-LINKS') {
+        target.tagName == 'A' || target.tagName == 'CHROMEDASH-MULTI-LINKS' ||
+        e.path[0].nodeName === 'A'|| textSelection.type === 'Range' ||
+        textSelection.toString()) {
       return;
     }
 
@@ -203,7 +211,7 @@ class ChromedashFeature extends LitElement {
 
   render() {
     return html`
-      <hgroup @click="${this._togglePanelExpansion}">
+      <hgroup @onselect="${this._textSelected}" @click="${this._togglePanelExpansion}">
         <h2>${this.feature.name}
           ${this.canEdit ? html`
             <span class="tooltip" title="Edit this feature">
